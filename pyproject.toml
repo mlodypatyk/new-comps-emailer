@@ -5,9 +5,8 @@ version = "1.0.0"
 
 dependencies = [
     "mysql.connector",
-    "requests",
-    "mailersend"
+    "requests"
 ]
 
 [tool.setuptools]
-py-modules = []
+py-modules = ["__main__"]
