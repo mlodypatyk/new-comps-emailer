@@ -4,6 +4,7 @@ from math import radians, sin, cos, sqrt, atan2
 from setup import people, dbsetup
 import mysql.connector
 from email_api import send_email
+from countries import countries_dict
 
 def haversine(lat1, lon1, lat2, lon2):
     R = 6371.0  # Earth radius in kilometers
@@ -99,10 +100,10 @@ if __name__ == "__main__":
             email_body_html += "New competitions in new countries:<br>"
             email_body += "New competitions in new countries:\n"
             for comp in new_countires_in_range:
-                email_body_html += f'- <a href="https://www.worldcubeassociation.org/competitions/{comp['id']}">{comp['name']}</a> ({comp['city']}, {comp['country_iso2']})<br>'
+                email_body_html += f'- <a href="https://www.worldcubeassociation.org/competitions/{comp['id']}">{comp['name']}</a> ({comp['city']}, {countries_dict[comp['country_iso2']]})<br>'
                 email_body_html += f'  Dates: {comp['start_date']} to {comp['end_date']}<br>'
                 email_body_html += f'  Events : {', '.join([event_names[event] for event in comp['event_ids']])}<br>'
-                email_body += f'- {comp['name']} ({comp['city']}, {comp['country_iso2']})\n'
+                email_body += f'- {comp['name']} ({comp['city']}, {countries_dict[comp['country_iso2']]})\n'
                 email_body += f'  Dates: {comp['start_date']} to {comp['end_date']}\n'
                 email_body += f'  Events : {', '.join([event_names[event] for event in comp['event_ids']])}\n'
             email_body_html += "<br>"
@@ -113,10 +114,10 @@ if __name__ == "__main__":
             email_body_html += "New competitions in range:<br>"
             email_body += "New competitions in range:\n"
             for comp in new_comps_in_range:
-                email_body_html += f'- <a href="https://www.worldcubeassociation.org/competitions/{comp['id']}">{comp['name']}</a> ({comp['city']}, {comp['country_iso2']})<br>'
+                email_body_html += f'- <a href="https://www.worldcubeassociation.org/competitions/{comp['id']}">{comp['name']}</a> ({comp['city']}, {countries_dict[comp['country_iso2']]})<br>'
                 email_body_html += f'  Dates: {comp['start_date']} to {comp['end_date']}<br>'
                 email_body_html += f'  Events : {', '.join([event_names[event] for event in comp['event_ids']])}<br>'
-                email_body += f'- {comp['name']} ({comp['city']}, {comp['country_iso2']})\n'
+                email_body += f'- {comp['name']} ({comp['city']}, {countries_dict[comp['country_iso2']]})\n'
                 email_body += f'  Dates: {comp['start_date']} to {comp['end_date']}\n'
                 email_body += f'  Events : {', '.join([event_names[event] for event in comp['event_ids']])}\n'
             email_body_html += "<br>"
