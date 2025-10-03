@@ -52,7 +52,7 @@ if __name__ == "__main__":
     found_end = False
 
     now = datetime.datetime.now(tz=datetime.timezone.utc)
-    yesterday = now - datetime.timedelta(days=1)
+    yesterday = now - datetime.timedelta(days=1, hours=1) # the cron job running before can take different amounts of time, the db grows etc. 
 
     all_new_comps = []
 
