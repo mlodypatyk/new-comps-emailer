@@ -69,7 +69,7 @@ if __name__ == "__main__":
             else:
                 all_new_comps.append(comp)
                 
-        params['page'] += 1
+        page += 1
 
     mydb = None
     if dbsetup['SECRET_PASSWORD']:
