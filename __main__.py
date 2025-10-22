@@ -124,7 +124,8 @@ if __name__ == "__main__":
             email_body += '\n'
 
         print(email_body)
-        send_email(person['email'], person['name'], 'New competitions ' + datetime.datetime.now().strftime('%Y-%m-%d'), email_body, email_body_html)
+        if email_body:
+            send_email(person['email'], person['name'], 'New competitions ' + datetime.datetime.now().strftime('%Y-%m-%d'), email_body, email_body_html)
 
 
     
