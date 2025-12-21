@@ -79,7 +79,7 @@ if __name__ == "__main__":
     cursor = mydb.cursor()
 
     for person in people:
-        query = f'select iso2 from Countries where id in (select distinct countryId from Competitions where id in (select distinct competitionId from Results where personId = "{person['wca_id']}"));'
+        query = f'select iso2 from countries where id in (select distinct country_id from competitions where id in (select distinct competition_id from results where person_id = "{person['wca_id']}"));'
         cursor.execute(query)
         person_countries = [result[0] for result in cursor.fetchall()]
 
