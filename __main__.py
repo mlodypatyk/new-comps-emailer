@@ -1,7 +1,7 @@
 import datetime
 import requests
 from math import radians, sin, cos, sqrt, atan2
-from setup import people, dbsetup
+from data_setup import people, dbsetup
 import mysql.connector
 from email_api import send_email
 from countries import countries_dict
