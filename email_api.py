@@ -1,4 +1,4 @@
-from setup import mail_config
+from data_setup import mail_config
 from smtplib import SMTP_SSL
 from email.mime.text import MIMEText
 import datetime
