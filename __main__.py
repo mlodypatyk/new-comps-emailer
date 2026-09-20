@@ -42,7 +42,8 @@ if __name__ == "__main__":
         "mmagic": "Master Magic",
         "pyram": "Pyraminx",
         "skewb": "Skewb",
-        "sq1": "Square-1"
+        "sq1": "Square-1",
+        "fto": "Face-Turning Octahedron"
     }
 
     page = 1
