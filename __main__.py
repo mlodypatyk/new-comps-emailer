@@ -1,10 +1,13 @@
 import datetime
+import os
 import requests
 from math import radians, sin, cos, sqrt, atan2
 from data_setup import people, dbsetup
 import mysql.connector
 from email_api import send_email
 from countries import countries_dict
+
+LATEST_COMP_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'latest_comp.txt')
 
 def haversine(lat1, lon1, lat2, lon2):
     R = 6371.0  # Earth radius in kilometers
@@ -53,6 +56,12 @@ if __name__ == "__main__":
 
     now = datetime.datetime.now(tz=datetime.timezone.utc)
     yesterday = now - datetime.timedelta(days=1, hours=1) # the cron job running before can take different amounts of time, the db grows etc. 
+    week_ago = now - datetime.timedelta(days=7) # guard in case the saved competition disappears from the listing
+
+    last_comp_id = None
+    if os.path.exists(LATEST_COMP_FILE):
+        with open(LATEST_COMP_FILE, 'r') as f:
+            last_comp_id = f.read().strip() or None
 
     all_new_comps = []
 
@@ -63,11 +72,17 @@ if __name__ == "__main__":
         competitions = response.json()
 
         for comp in competitions:
-            if datetime.datetime.fromisoformat(comp['announced_at']) < yesterday:
+            announced_at = datetime.datetime.fromisoformat(comp['announced_at'])
+            if announced_at < week_ago:
                 found_end = True
                 break
-            else:
-                all_new_comps.append(comp)
+            if last_comp_id and comp['id'] == last_comp_id:
+                found_end = True
+                break
+            if not last_comp_id and announced_at < yesterday:
+                found_end = True
+                break
+            all_new_comps.append(comp)
                 
         page += 1
 
@@ -127,5 +142,6 @@ if __name__ == "__main__":
         if email_body:
             send_email(person['email'], person['name'], 'New competitions ' + datetime.datetime.now().strftime('%Y-%m-%d'), email_body, email_body_html)
 
-
-    
+    if all_new_comps:
+        with open(LATEST_COMP_FILE, 'w') as f:
+            f.write(all_new_comps[0]['id'])

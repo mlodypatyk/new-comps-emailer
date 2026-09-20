@@ -1,3 +1,4 @@
 data_setup.py
 __pycache__/*
 new_comps_emailer.egg-info
+latest_comp.txt
